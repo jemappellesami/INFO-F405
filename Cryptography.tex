@@ -58,7 +58,7 @@ Similarly to encryption/decryption, we here have two mechanisms with keys :
 \begin{itemize}
     \item Authentication : Ali generates a tag under a key $k_A$, and sends the couple $(m,\mathrm{tag})$ to Bachar
     $$m \Rightarrow (m, \mathrm{tag})$$
-    \item Verification : Bob receives $(m,\mathrm{tag})$, and under key $k_V$, identifies the source.
+    \item Verification : Bachar receives $(m,\mathrm{tag})$, and under key $k_V$, identifies the source.
     $$(m, \mathrm{tag}) \Rightarrow \{m, \perp\}$$
 \end{itemize}
 
@@ -216,13 +216,37 @@ Why "one-time" pad ? Because if we use twice the same key for a different messag
 \section{Computational security}
 As we already saw, perfect secrecy requires the key being at least as long as the message. This annoys us very much. Some systems can be very secure \textbf{without achieveing perfect secrecy}. This allows us to leak some information. This introduces us the notion of \textbf{computational security}. \\
 
-\bg{Computational security}{
-    A scheme is $(t, \varepsilon)$-secure if an adversary running for at most $t$ \textbf{attempts} succeeds in breaking the scheme with probability at most $\varepsilon$.
+
+\begin{center}
+    \includegraphics[width= \linewidth, page=37]{Slides/1-Historical-Principles.pdf}
+\end{center}
+
+We really need to interpret this with the example : if the key space of a system is of size $2^{128}$ and that for the best attack, the probability of finding $k$ after $t$ attempts is $\varepsilon(t) = t/2^{128}$, then the scheme is $s=128$-bit secure. 
+
+\section{Security principles}
+There is a big gap between cryptography and practical cryptosystems. In practical, none of the cryptosystems will see offer perfect secrecy. The only ways to gain confidence in the security of a scheme is by \textit{peer-reviewing}. Particularly, the \textbf{algorithm must be public}, first for people to help proving its security/breaking it, but most importantly to stick to Kerckhoff's principles.
+\subsection{Goals of an adversary}
+\includegraphics[width=0.8\linewidth, page=45]{Slides/1-Historical-Principles.pdf} 
+
+\subsection{Ability to query the scheme}
+\includegraphics[width=0.8\linewidth, page=47]{Slides/1-Historical-Principles.pdf} 
+
+\subsection{Taxonomy of attacks}
+\includegraphics[width=0.8\linewidth, page=49]{Slides/1-Historical-Principles.pdf}
+
+\subsection{Formal definition of an encryption scheme}
+\includegraphics[width=0.8\linewidth, page=50]{Slides/1-Historical-Principles.pdf} 
+
+\subsection{Semantic security}
+An encryption scheme is \textbf{semantically secure} if : when the adversary can compute  with the ciphertext something about the plaintext in a polynomial time, it can also do it without the ciphertext (in a polynomial time). \\
+
+This immediately implies that \textbf{deterministic encryption} is not semantically secure. To make it secure, we must go \textbf{probabilistic}. Using a nonce for the key generation.
+
+\bg{Nonce}{
+    A \textit{nonce} is a number used once. Most likely randomly generated.
 }
 
-Let us illustrate this with an example, that will lead us to the definition of the \textbf{security strength} of a scheme. \\
-
-\textit{Exhaustive key-search. We are in a binary space. Let us assume that the key space is $|K$. After $t$ attempts, we have tested $t$ keys, but in a very dumb way, so the probability that we succeded is $\varepsilon(t) = t/|K|$.
-}
+\subsection{INDististinguishability}
+Let's play a bit.
 
 \end{document}
