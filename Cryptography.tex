@@ -3,7 +3,7 @@
 \input{preambule.tex}
 \input{cover/preambule-garde.tex}
 
-\documentname{Introduction to Cryptography}{Gilles \textsc{Van Assche}}{cover/cover_picture_elech417.jpg}
+\documentname{Introduction to Cryptography}{Gilles \textsc{Van Assche}}{cover/cover_picture_infof405.jpg}
 \author{Sami \textsc{Abdul Sater}}
 
 
@@ -246,7 +246,104 @@ This immediately implies that \textbf{deterministic encryption} is not semantica
     A \textit{nonce} is a number used once. Most likely randomly generated.
 }
 
-\subsection{INDististinguishability}
-Let's play a bit.
+\subsection{INDististinguishability games}
+Let's play a bit, and introduce the following game. It is called the "IND-game", and we apply it on an encryption scheme $\mathcal{E} = (\mathrm{Gen}, \mathrm{Enc}, \mathrm{Dec})$. If the adversary can not win it with other than with a negligeable advantage against a \textbf{random guess}, we are good. \\
+
+Basically, it ensures that an adversary can not know between two plaintexts, even if they are chosen, which of them was encrypted, if it is given a ciphertext. This game can be twisted and allow the adversary to query the encryption function giving us the IND-CPA game (includes steps \ref{enum:cpa1} and \ref{enum:cpa2})
+
+\bg{IND(-CPA/CCA) game}{
+    \begin{enumerate}
+        \item Challenger generates a key $k \longleftarrow \mathrm{Gen}()$.
+        \item \label{enum:cpa1}
+        [CPA/CCA only] \rouge{Adversary queries $\mathrm{Enc}_k$ with plaintexts of his choice} 
+
+        [CCA only] \green{and $\mathrm{Dec}_k$ with ciphertexts of his choice}
+        \item Adversary chooses two same-length plaintexts $m_1, m_2 \in M \wedge |m_1| = |m_2|$ and gives them to the Challenger.
+        \item Challenger randomly encrypts $m_1$ or $m_2$, gives the ciphertext $c_x = E_k(m_x)$ to the adversary.
+        \item \label{enum:cpa2} 
+        [CPA/CCA only] \rouge{Adversary queries $\mathrm{Enc}_k$ with plaintexts of his choice} 
+        
+        [CCA only] \green{and $\mathrm{Dec}_k$ with ciphertexts of his choice}
+        \item Adv. guesses $x'$ was encrypted
+        \item Adv. wins if $x = x'$
+    \end{enumerate}
+}
+We note the "Advantage" of a system the probability that this winning situation is far from $1/2$, that corresponds to a totally random guess. Formally :
+$$\mathrm{Advantage} \equiv \varepsilon = \left| \mathrm{Pr}[\mathrm{win}] - \frac{1}{2}\right| \; .$$
+
+\bg{Note}{
+    For symmetric crypto, the IND game only addresses the security of a single encryption. Indeed, it needs the challenger to encrypt, as there is no public key \footnote{This semantically makes sense but I don't even understand what we should conclude of this.}. The game can only be played \textbf{online}.
+}
+
+\subsection{Extending security strength definition}
+Hence, we can extend the security strength definitions for indististinguishability. 
+
+A system id $(t,d,\varepsilon)-$IND-CPA (resp. IND-CCA) secure if any adversary running at most $t$ attempts and having access to $d$ data succeeds in winning the respective game with Advantage at most $\varepsilon$. \\
+
+Here, we mentioned a limit quantity $d$ of data that we authorize the adversary to query with. But what attempts are we counting ? If we are in asymmetric crypto, then the encryption key is completely public so anyway the adversary can compute any encryption he wants. The decryption key is however private, so $d$ in asymmetric crypto refers to the number of times an adversary can query the decryption scheme, and is hence logic to be found only in the IND-CCA game. Similarly for the symmetric case : here $d$ refers to both encryption and decryption querying because both rely on a secret key. This gives us the table on the slide below : 
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth, page=59]{Slides/1-Historical-Principles.pdf}
+\end{center}
+
+\subsection{INDististinguishability using a diversifier (nonce)}
+In symmetric crypto, encryption is diversified at each use : encryption takes an extra parameter $d$ randomly-chosen, completely public. The decryption also takes $d$ as input. \\
+
+Thus, the symmetric-key encryption scheme must be modified :
+\begin{center}
+    \includegraphics[width=0.8\linewidth, page=61]{Slides/1-Historical-Principles.pdf}
+\end{center}
+
+Here is the IND-CPA game with a diversifier :
+\bg{IND-CPDA game (chosen plaintext and diversifier)}{
+    \begin{enumerate}
+        \item Challenger generates a key $k \longleftarrow \mathrm{Gen}()$.
+        \item \label{cpda:nonce1} Adversary queries $\mathrm{Enc}_k$ with $(d,m)$ of his choice.
+        
+        \item \label{cpda:nonce2} Adversary \rouge{chooses $d$} and $m_1, m_2$ and gives them to the Challenger.
+        \item Challenger randomly encrypts $m_1$ or $m_2$, gives the ciphertext $c_x = E_k(d, m_x)$ to the adversary.
+        \item \label{cpda:nonce3} Adversary queries $\mathrm{Enc}_k$ with $(d,m)$ of his choice
+        \item Adv. guesses $x'$ was encrypted
+        \item Adv. wins if $x = x'$
+    \end{enumerate}
+}
+But \textbf{attention} : the adversary \textbf{must} respect that $d$ is a \textbf{nonce} !! The nonces used at steps \ref{cpda:nonce1}, \ref{cpda:nonce2}, and \ref{cpda:nonce3} \textbf{must all be different}.
+
+\section{Authentication schemes}
+What about authentication schemes ? Recall that our goal here is not to hide a message : the message is sent in plain text. Here, we want to provide a signature of our message, and to recognize someone's signature. So the adversary has the following goals :
+\begin{itemize}
+    \item Recover the (secret or private) key
+    \item Forgery : be able to send a message that does not come from an authentic party and is still verified
+    \item Find a property that distinguishes the scheme from ideal.
+\end{itemize}
+
+And he is allowed to get :
+\begin{itemize}
+    \item Known messages and corresponding tags 
+    \item Chosen messages and corresponding tags
+\end{itemize}
+
+\subsection{Types of forgeries}
+\begin{itemize}
+    \item Universal forgery : the attack must be able to work for any message, possibly chosen by a challenger 
+    \item Selective forgery : the adversary chooses the message beforehand
+    \item Existantial forgery : the message content is \textbf{irrelevant}, the adversary can choose it adaptatively just to make the attack work. We guess that this is not really senseful and a weak attack.
+\end{itemize}
+
+\subsection{Taxonomy of authentication scheme attacks}
+\begin{center}
+    \includegraphics[width=0.8\linewidth, page=69]{Slides/1-Historical-Principles.pdf}
+\end{center}
+
+\subsection{Formal definition of an authentication scheme}
+\begin{center}
+    \includegraphics[width=0.8\linewidth, page=70]{Slides/1-Historical-Principles.pdf}
+\end{center}
+
+\subsection{Some games for unforgeability : EU-CMA}
+\begin{center}
+    \includegraphics[width=0.8\linewidth, page=71]{Slides/1-Historical-Principles.pdf}
+\end{center}
+
 
 \end{document}
