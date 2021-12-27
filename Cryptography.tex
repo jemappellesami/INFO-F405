@@ -103,6 +103,14 @@ Here is an indicator of the meaning of the "time-to-break" (TTB) of cryptosystem
     \includegraphics[width=0.7\linewidth]{images/1-TTB.png}
 \end{figure}
 \section{Some ciphers}
+\subsection{Shift encryption scheme}
+Chose a key $k$ between $0$ and $26$, message $m$ also between $0$ and $26$. The shift encryption scheme is all about XORing the message with the key :
+$$
+\begin{array}{lll}
+    E_k(m) &= m + k \mod{26} &= c \\
+    D_k(c) &= c - k \mod{26} &= m
+\end{array}$$
+It is really dumb : as the key space is very limited ($26$), it is quickly subject to brute-force methods.
 \subsection{Mono-alphabetic substitution}
 The mono-alphabetic cipher consists in replacing each letter of the message by a corresponding letter in a mixed alphabet chosen randomly. So we define a substitution table, and we apply our mapping. Let's break it down a little bit.
 \begin{itemize}
@@ -134,8 +142,12 @@ $$k' \Rightarrow (p_1^{-1}, p_2^{-1}, \dots, p_t^{-1}) \; .$$
     \item Key $k$ taken randomly in $K$, so 
     $$k = (k_0, k_1, \dots, k_{t-1}) \in K$$
 \end{itemize}
-Then, the encryption of $m$ will result in the concatenation of the XORing of each bit $m_i$ with a part of the key that. Remember that the key has only $t$ parts, so we will repeat the same parts if the message is very long !
-$$E_k(m) \equiv E_k(m_0 \Vert m_1 \Vert \dots \Vert m_{|m|-1}) =  \underset{\scriptscriptstyle{0\leq i \leq |m|-1}}{\Vert} (m_i + k_{i  \mod{t}})$$
+Then, the encryption of $m$ will result in the concatenation of the XORing of each bit $m_i$ with a part of the key that. Remember that the key has only $t$ parts, so we will repeat the same parts if the message is very long ! The same with a modular difference for the decryption
+
+$$\begin{array}{rll}
+    E_k(m) \equiv E_k(m_0 \Vert m_1 \Vert \dots \Vert m_{|m|-1}) &=  \underset{\scriptscriptstyle{0\leq i \leq |m|-1}}{\Vert} (m_i + k_{i  \mod{t}}) &= c \\
+    D_k(c) \equiv E_k(c_0 \Vert c_1 \Vert \dots \Vert c_{|c|-1}) &=  \underset{\scriptscriptstyle{0\leq i \leq |c|-1}}{\Vert} (c_i - k_{i  \mod{t}}) &= m \\
+\end{array}$$
 
 In practice, the key can actually be a $t$-long string. During the process, each character is converted to a number.
 
@@ -148,5 +160,69 @@ We stick to Kerckhoff's principles : so we know how every message is encrypted, 
 
 $$m_i, m_{i+ t}, m_{i+2t} \longleftarrow k_{i\mod t}$$
 
-For each 
+For each chunk, we see that we actually have a simple shift encryption scheme that can be easily broken. So, if we know the length $t$ of the key, we can break Vigenère cipher easily. \\
+
+How to find the length of the key ? We can try brute-force. It will work. But there is a better method, using the \textbf{index of coincidence}. \\
+
+Now that we have introduced the fundamental ciphers, we can move on some more cryptanalysis definitions : how do we quantify the security of cryptosystems ?
+
+
+\section{Perfect secrecy (PS -- unconditional security)}
+A first definition that comes into the hand when talking about security of cryptosystems is \textbf{perfect secrecy}. It is an \textbf{ideal property} that a cryptosystem can achieve. In English, it states that it must not leak any information, even to an adversary with unlimited computational power. In mathematical terms (not real mathematics, but mmmhh), it states the following 
+\bg{Perfect secrecy}{
+    An encryption scheme satisfies perfect secrecy an adversary can not distinguish two random encryptions : 
+    \begin{itemize}
+        \item For any two messages $m_1, m_2 \in M$
+        \item For every ciphertext $c \in C$
+        \item Choosing a key $k \in K$
+    \end{itemize}
+    $$\mathrm{Pr}\left[\mathrm{Enc}_k(m_1) = c\right] = \mathrm{Pr}\left[\mathrm{Enc}_k(m_2) = c\right]$$
+}
+\subsection{Perfect secrecy and length of keys}
+Claude Shannon showed that for a system to achieve perfect secrecy, the length of the key must be at least the length of the message. Note that it is possible to have a scheme with a key much longer than the message but for it to be not secure at all... It is an implication : it must, but it is not sufficient.  \\
+\begin{center}
+    \includegraphics[width=\linewidth, page=27]{Slides/1-Historical-Principles.pdf}
+\end{center}
+Note that in practical, this is a property that annoys us a lot because for long messages, we must have a longer key. We will see later some \textit{lighter} security definitions.
+
+\subsection{One-time pad (OTP)}
+The one-time pad encryption scheme is quite easy : it is close to the Vigenère cipher, except for the fact that \textbf{the key is as long as the message}. It can thus ensure PS. But, does it really ? \\
+
+We are given a message space $$ M = (\mathbb{Z}_2)^t$$ and $C = K = M$. This means we play with binary strings. The key will be written as $$ k = (k_0,k_1, \dots, k_{t-1}) \; ,$$
+and the messages, ciphertexts, can also be similarly written. The scheme is the following :
+$$
+\begin{array}{lll}
+    E_k(m) \equiv E_k(m_0, m_1, \dots, m_{t-1}) &= (m_i + k_i)_{0\leq i \leq t-1} &= c \\
+    D_k(c) \equiv D_k(c_0, c_1, \dots, c_{t-1}) &= (c_i - k_i)_{0\leq i \leq t-1} &= m \\
+\end{array}$$
+It looks indeed similar to the Vigenère cipher. But here, let's compute the probability of knowing a plaintext -- ciphertext pair.
+
+
+\begin{align*}
+\mathrm{Pr}[E_k(m) = c] &= \mathrm{Pr}[m\oplus k = c] && \text{Bit-wise operator}\\
+&= \mathrm{Pr}[k = m \oplus c] && \text{Because $m\oplus m = 0$}\\
+&= 2^{-t} && \text{Because $k$ is chosen randomly in $(\mathbb{Z}_2)^t$}
+\end{align*}
+
+We thus prove that the OTP achieves perfect secrecy. It may look like Vigenère's, but in security ways, it is way different. OTP is the ideal scheme, Vigenère's is easily broken as we saw. \\
+
+Why "one-time" pad ? Because if we use twice the same key for a different message, there is information that is leaked from the system. In particular, we can find a link between the ciphertexts and the messages. Indeed :
+\begin{align*}
+    \text{If} &&& c_1 = m_1 \oplus k \\
+    \text{and} &&& c_2 = m_2 \oplus k \\
+    \text{Then} &&& c_1 \oplus c_2 = m_1\oplus m_2 && \text{Because $k\oplus k = 0$} \\
+\end{align*}
+
+\section{Computational security}
+As we already saw, perfect secrecy requires the key being at least as long as the message. This annoys us very much. Some systems can be very secure \textbf{without achieveing perfect secrecy}. This allows us to leak some information. This introduces us the notion of \textbf{computational security}. \\
+
+\bg{Computational security}{
+    A scheme is $(t, \varepsilon)$-secure if an adversary running for at most $t$ \textbf{attempts} succeeds in breaking the scheme with probability at most $\varepsilon$.
+}
+
+Let us illustrate this with an example, that will lead us to the definition of the \textbf{security strength} of a scheme. \\
+
+\textit{Exhaustive key-search. We are in a binary space. Let us assume that the key space is $|K$. After $t$ attempts, we have tested $t$ keys, but in a very dumb way, so the probability that we succeded is $\varepsilon(t) = t/|K|$.
+}
+
 \end{document}
