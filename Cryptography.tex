@@ -126,11 +126,12 @@ $$k' \Rightarrow (p_1^{-1}, p_2^{-1}, \dots, p_t^{-1}) \; .$$
 \subsection{Vigenère cipher} 
 \begin{itemize}
     \item Message $m$ of length $|m|$, chosen in $(\mathbb{Z}_{26})^\star$
-    \item Key space $K \subset (\mathbb{Z}_{26})^t$
+    \item Key space $K \subset (\mathbb{Z}_{26})^t$. Size : logically $26^t$
     \item Key $k$ taken randomly in $K$, so 
     $$k = (k_0, k_1, \dots, k_{t-1}) \in K$$
 \end{itemize}
 Then, the encryption of $m$ will result in the concatenation of the XORing of each bit $m_i$ with a part of the key that. Remember that the key has only $t$ parts, so we will repeat the same parts if the message is very long !
 $$E_k(m) \equiv E_k(m_0 \Vert m_1 \Vert \dots \Vert m_{|m|-1}) =  \underset{\scriptscriptstyle{0\leq i \leq |m|-1}}{\Vert} (m_i + k_{i  \mod{\mathrm{t}}})$$
 
+In practice, the key can actually be a $t$-long string. During the process, each character is converted to a number.
 \end{document}
