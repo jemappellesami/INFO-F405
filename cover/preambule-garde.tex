@@ -1,0 +1,19 @@
+\usepackage{titling, setspace, anyfontsize}
+
+% Syntax : \documentname{Title}{Professor}{image1}
+\newcommand\documentname[3]{
+	\title{
+	\includegraphics[width=0.3\textwidth]{cover/EPB.png} \\
+	\vspace{2cm}
+    \includegraphics[width=1\textwidth]{#3} \\
+    \vspace{0.7cm}
+     #1\\
+    \vspace{0.6cm}
+    \LARGE École Polytechnique de Bruxelles\\ 
+    \vspace{0.7cm}
+    \large Professeur : \textit{#2}
+    \vspace{0.8cm}
+	}
+
+    \date{Année académique : 2021-2022}
+}
