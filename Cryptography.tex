@@ -68,12 +68,16 @@ In asymmetric crypto, $k_A$ is private and $k_V$ is public. In this case, the ta
 To do so, with the message, Ali sends a tag. \\
 
 \begin{center}
-    \includegraphics[width=\linewidth, page={4}]{../1-Historical-Principles.pdf}
-    \includegraphics[width=\linewidth, page={5}]{../1-Historical-Principles.pdf}
+    \includegraphics[width=\linewidth, page={4}]{Slides/1-Historical-Principles.pdf}
+    \includegraphics[width=\linewidth, page={5}]{Slides/1-Historical-Principles.pdf}
 \end{center}
 
 \section{Cryptanalysis}
-Cryptanalysis is the field that studies algorithms and ways of breaking a cryptosystem. This means, recovering the message, or recovering the key. There are several ways to do this, going from "little average mathematician boi that exploits the inner structure of the scheme" to the "chad asking you your password with a gun pointing to the head". All the methods, from the first to the last, are part of \textbf{cryptanalysis}. But in this course, we focus on what we call \textbf{mathematical cryptanalysis}. \\
+Cryptanalysis is the field that studies algorithms and ways of breaking a cryptosystem. This means, recovering the message, or recovering the key. There are several ways to do this, going from "little average mathematician boi that exploits the inner structure of the scheme" to the "chad asking you your password with a gun pointing to the head". All the methods, from the first to the last, are part of \textbf{cryptanalysis}. But in this course, we focus on what we call \textbf{mathematical cryptanalysis}. We will also place ourselves in the Kerckhoff's principles.\\
+
+\bg{Kerckhoff's principles for cryptographic systems}{
+The security of a cryptosystem must only rely on the \textbf{secrecy of its key}. We hence assume, when evaluating the security of a system, that everything is known : length of the messages, encryption and decryption scheme.
+}
 
 \subsection{Mathematical cryptanalysis}
 
@@ -107,8 +111,8 @@ The mono-alphabetic cipher consists in replacing each letter of the message by a
     \item It is breakable using a statistical approach.
 \end{itemize}
 \begin{center}
-    \includegraphics[page=10, width=0.49\textwidth]{../1-Historical-Principles.pdf}
-    \includegraphics[page=11, width=0.49\textwidth]{../1-Historical-Principles.pdf}
+    \includegraphics[page=10, width=0.49\textwidth]{Slides/1-Historical-Principles.pdf}
+    \includegraphics[page=11, width=0.49\textwidth]{Slides/1-Historical-Principles.pdf}
 \end{center}
 
 \subsection{Poly-alphabetic substitution}
@@ -131,7 +135,18 @@ $$k' \Rightarrow (p_1^{-1}, p_2^{-1}, \dots, p_t^{-1}) \; .$$
     $$k = (k_0, k_1, \dots, k_{t-1}) \in K$$
 \end{itemize}
 Then, the encryption of $m$ will result in the concatenation of the XORing of each bit $m_i$ with a part of the key that. Remember that the key has only $t$ parts, so we will repeat the same parts if the message is very long !
-$$E_k(m) \equiv E_k(m_0 \Vert m_1 \Vert \dots \Vert m_{|m|-1}) =  \underset{\scriptscriptstyle{0\leq i \leq |m|-1}}{\Vert} (m_i + k_{i  \mod{\mathrm{t}}})$$
+$$E_k(m) \equiv E_k(m_0 \Vert m_1 \Vert \dots \Vert m_{|m|-1}) =  \underset{\scriptscriptstyle{0\leq i \leq |m|-1}}{\Vert} (m_i + k_{i  \mod{t}})$$
 
 In practice, the key can actually be a $t$-long string. During the process, each character is converted to a number.
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth, page=15]{Slides/1-Historical-Principles.pdf}
+\end{center}
+
+\subsubsection{Cryptanalysis of Vigenère cipher}
+We stick to Kerckhoff's principles : so we know how every message is encrypted, and the only thing that is kept secret is the key $k$. We don't even know its length $t$. And as it has been seen before, some bits of $m$ are encoded with the same key chunk because of the modulo in the XOR ($k_{i\mod t})$. So we can group the bits of $m$ that are encoded with the same chunks.
+
+$$m_i, m_{i+ t}, m_{i+2t} \longleftarrow k_{i\mod t}$$
+
+For each 
 \end{document}
