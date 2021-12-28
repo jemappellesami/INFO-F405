@@ -1,0 +1,46 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Historical ciphers and general principles}{5}{chapter.1}
+\contentsline {section}{\numberline {1.1}Cryptography}{5}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Confidentiality}{5}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Authentication}{6}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}Cryptanalysis}{8}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Mathematical cryptanalysis}{8}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}Key length}{8}{subsection.1.2.2}
+\contentsline {subsection}{\numberline {1.2.3}Time to break}{8}{subsection.1.2.3}
+\contentsline {section}{\numberline {1.3}Some ciphers}{9}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}Shift encryption scheme}{9}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {1.3.2}Mono-alphabetic substitution}{9}{subsection.1.3.2}
+\contentsline {subsection}{\numberline {1.3.3}Poly-alphabetic substitution}{9}{subsection.1.3.3}
+\contentsline {subsection}{\numberline {1.3.4}Vigen\IeC {\`e}re cipher}{10}{subsection.1.3.4}
+\contentsline {subsubsection}{Cryptanalysis of Vigen\IeC {\`e}re cipher}{11}{section*.2}
+\contentsline {section}{\numberline {1.4}Perfect secrecy (PS -- unconditional security)}{11}{section.1.4}
+\contentsline {subsection}{\numberline {1.4.1}Perfect secrecy and length of keys}{11}{subsection.1.4.1}
+\contentsline {subsection}{\numberline {1.4.2}One-time pad (OTP)}{12}{subsection.1.4.2}
+\contentsline {section}{\numberline {1.5}Computational security}{13}{section.1.5}
+\contentsline {section}{\numberline {1.6}Security principles}{14}{section.1.6}
+\contentsline {subsection}{\numberline {1.6.1}Goals of an adversary}{14}{subsection.1.6.1}
+\contentsline {subsection}{\numberline {1.6.2}Ability to query the scheme}{15}{subsection.1.6.2}
+\contentsline {subsection}{\numberline {1.6.3}Taxonomy of attacks}{15}{subsection.1.6.3}
+\contentsline {subsection}{\numberline {1.6.4}Formal definition of an encryption scheme}{16}{subsection.1.6.4}
+\contentsline {subsection}{\numberline {1.6.5}Semantic security}{16}{subsection.1.6.5}
+\contentsline {subsection}{\numberline {1.6.6}INDististinguishability games}{16}{subsection.1.6.6}
+\contentsline {subsection}{\numberline {1.6.7}Extending security strength definition}{17}{subsection.1.6.7}
+\contentsline {subsection}{\numberline {1.6.8}INDististinguishability using a diversifier (nonce)}{18}{subsection.1.6.8}
+\contentsline {section}{\numberline {1.7}Authentication schemes}{19}{section.1.7}
+\contentsline {subsection}{\numberline {1.7.1}Types of forgeries}{19}{subsection.1.7.1}
+\contentsline {subsection}{\numberline {1.7.2}Taxonomy of authentication scheme attacks}{20}{subsection.1.7.2}
+\contentsline {subsection}{\numberline {1.7.3}Formal definition of an authentication scheme}{20}{subsection.1.7.3}
+\contentsline {subsection}{\numberline {1.7.4}Some games for unforgeability : EU-CMA}{21}{subsection.1.7.4}
+\contentsline {chapter}{\numberline {2}Secret-key techniques}{23}{chapter.2}
+\contentsline {section}{\numberline {2.1}Basic schema}{23}{section.2.1}
+\contentsline {section}{\numberline {2.2}Stream ciphers vs block ciphers}{24}{section.2.2}
+\contentsline {section}{\numberline {2.3}Keystream generators and stream ciphers}{24}{section.2.3}
+\contentsline {section}{\numberline {2.4}Block ciphers}{24}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}DES}{25}{subsection.2.4.1}
+\contentsline {subsubsection}{Feistel network}{25}{section*.3}
+\contentsline {subsubsection}{Going into $f$}{25}{section*.4}
+\contentsline {subsubsection}{Key schedule}{26}{section*.5}
+\contentsline {subsection}{\numberline {2.4.2}Rijndael and AES}{26}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}Modes of operation}{26}{subsection.2.4.3}
+\contentsline {section}{\numberline {2.5}Permutations}{26}{section.2.5}
+\contentsline {section}{\numberline {2.6}Pseudo-random functions}{26}{section.2.6}

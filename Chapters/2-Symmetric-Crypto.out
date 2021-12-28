@@ -1,0 +1,15 @@
+\BOOKMARK [0][-]{chapter.1}{Secret-key techniques}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Basic schema}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Stream ciphers vs block ciphers}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Keystream generators and stream ciphers}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.4}{Block ciphers}{chapter.1}% 5
+\BOOKMARK [2][-]{subsection.1.4.1}{DES}{section.1.4}% 6
+\BOOKMARK [2][-]{subsection.1.4.2}{Rijndael and AES}{section.1.4}% 7
+\BOOKMARK [2][-]{subsection.1.4.3}{Modes of operation}{section.1.4}% 8
+\BOOKMARK [2][-]{subsection.1.4.4}{Counter mode}{section.1.4}% 9
+\BOOKMARK [2][-]{subsection.1.4.5}{Build MAC from block cipher : CBC-MAC}{section.1.4}% 10
+\BOOKMARK [2][-]{subsection.1.4.6}{Authenticated encryption}{section.1.4}% 11
+\BOOKMARK [1][-]{section.1.5}{Permutations}{chapter.1}% 12
+\BOOKMARK [2][-]{subsection.1.5.1}{The sponge construction}{section.1.5}% 13
+\BOOKMARK [2][-]{subsection.1.5.2}{The duplex construction}{section.1.5}% 14
+\BOOKMARK [1][-]{section.1.6}{Pseudo-random functions}{chapter.1}% 15
