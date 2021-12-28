@@ -37,5 +37,10 @@
 \BOOKMARK [2][-]{subsection.2.4.1}{DES}{section.2.4}% 37
 \BOOKMARK [2][-]{subsection.2.4.2}{Rijndael and AES}{section.2.4}% 38
 \BOOKMARK [2][-]{subsection.2.4.3}{Modes of operation}{section.2.4}% 39
-\BOOKMARK [1][-]{section.2.5}{Permutations}{chapter.2}% 40
-\BOOKMARK [1][-]{section.2.6}{Pseudo-random functions}{chapter.2}% 41
+\BOOKMARK [2][-]{subsection.2.4.4}{Counter mode}{section.2.4}% 40
+\BOOKMARK [2][-]{subsection.2.4.5}{Build MAC from block cipher : CBC-MAC}{section.2.4}% 41
+\BOOKMARK [2][-]{subsection.2.4.6}{Authenticated encryption}{section.2.4}% 42
+\BOOKMARK [1][-]{section.2.5}{Permutations}{chapter.2}% 43
+\BOOKMARK [2][-]{subsection.2.5.1}{The sponge construction}{section.2.5}% 44
+\BOOKMARK [2][-]{subsection.2.5.2}{The duplex construction}{section.2.5}% 45
+\BOOKMARK [1][-]{section.2.6}{Pseudo-random functions}{chapter.2}% 46
