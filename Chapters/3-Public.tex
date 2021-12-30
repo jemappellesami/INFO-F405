@@ -91,4 +91,73 @@ Padding is really interesting. We here add padding to the original message, and 
 \end{center}
 This helps with the short message attack, makes the scheme probabilistic, and introduces diffusion. In addition, it is shown to be IND-CCA secure. Wow !
 
+\subsubsection{RSA-KEM : Key Encapsulation Method}
+Here, we present a method to do \textbf{hybrid encryption} using RSA. It is not an encryption scheme that we present ! Remember that in hybrid encryption, Ali somehow chooses the symmetric key and sends it to Bachar in an encrypted way. Here we will have something different : 
+\begin{itemize}
+    \item Ali chooses a random string $m$ of size $n$, where $n$ is part of his RSA public key.
+    \item He hashes $m$ : gives $k = \mathrm{hash}(m)$ which will be the secret key
+    \item Ali encrypts $c = m ^e \mod{n}$, and sends $c$ to Bachar 
+\end{itemize}
+
+To decrypt (actually, \textit{decapsulate}), Bachar does the following :
+\begin{itemize}
+    \item Recovers $m = c^\rouge{d} \mod{n}$
+    \item Computes $k = \mathrm{hash}(m)$
+\end{itemize}
+We thus see that the key $k$ is encapsulated in $m$, himself encrypted by RSA textbook encryption.
+
+\subsection{Computational analysis of RSA}
+Encryption in RSA consists in two operations : exponentiating for encrypting, exponentiating for decrypting. If we choose a small $e$, it will be fast for encryption. However, there might still have some problems. Below, we list how to improve the computations for RSA :
+\begin{itemize}
+    \item Encryption -- computing $a^e$ : fast encryption using \textbf{square and multiply} (short public exponents)
+    \item Decryption -- computing $c^d$ : fast decryption using \textbf{Chinese Reminder Theorem} (see next 2 pages)
+\end{itemize}
+\includepdf[pages={197, 198}]{livre.pdf}
+
+\section{Discrete logarithm problem in $\mathbb{Z}_p ^*$}
+The discrete logarithm problem is also a problem hard to solve, like the factorization of large integers. Here, we focus on the definition of a \textbf{group}, that we dont recall in this document. To enter this section, we need ourselves a group :
+\begin{itemize}
+    \item A set of items : it will be $\mathbb{Z}_p ^*$. It is a set of strings where each character can take values from $0$ to $p-1$.
+    \item A composition relation : we choose modular addition
+    \item Identity : $0$
+    \item Each item has an inverse
+\end{itemize}
+\begin{center}
+    \includegraphics[width=0.8\linewidth, page=62]{Slides/4-Public.pdf}
+\end{center}
+\subsection{Key generation}
+\begin{center}
+    \includegraphics[width=0.45\linewidth, page=63]{Slides/4-Public.pdf}
+    \includegraphics[width=0.45\linewidth, page=64]{Slides/4-Public.pdf}
+\end{center}
+
+\subsection{ElGamal encryption}
+This is an encryption scheme, as stated in the name. We come armed with the key generated like at previous section. We are now ready to fight. We have a message $m \in \mathbb{Z}_p ^*$ that we want to send to Ali. We need his public key, he has generated it before, it is $A = g^a\mod{^p}$. 
+
+\begin{itemize}
+    \item \textbf{\bleu{Encryption}} : he uses the generated key as a multiplicative mask with an exponent. Typically : $$c = m A^k \mod{p}$$ where $k$ is a random integer $\in [1, p-2]$ \footnote{Note here the bounds : for exponents, it is often $[1, p-2]$}. $k$ is not shared. However, Ali sends $K = g^k \mod{p}$ alongside $c$.
+    \item \textbf{\rouge{Decryption}} : Ali receives $c$ and $K$, and computes $$m = c K^{-a}\mod{p}$$
+\end{itemize}
+Just a quick reminder here : 
+\begin{itemize}
+    \item Are public : $K$, $g$, $A$, $p$
+    \item Are private : $a$, $k$
+\end{itemize}
+\subsubsection{$k$ needs to be ephemeral}
+\begin{center}
+    \includegraphics[width=0.6\linewidth, page=70]{Slides/4-Public.pdf}
+\end{center}
+
+Now, let's have a talk about the security of ElGamal encryption scheme.
+\subsection{The Diffie-Hellman problem}
+\begin{center}
+    \includegraphics[width=0.8\linewidth, page=71]{Slides/4-Public.pdf}
+\end{center}
+
+The DHP does not give $x$ and $y$, so it does not solve the DLP.
+We can see two things here :
+\begin{itemize}
+    \item Retrieving the secret key $a$ or $k$ from $A$ or $K$ is DLP
+    \item Breaking ElGamal requires to compute $g^{ak}$, so this is DHP.
+\end{itemize}
 \end{document}
