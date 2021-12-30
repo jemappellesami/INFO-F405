@@ -147,7 +147,7 @@ Just a quick reminder here :
 \begin{center}
     \includegraphics[width=0.6\linewidth, page=70]{Slides/4-Public.pdf}
 \end{center}
-
+We see that we can compute a difference, just like for the OTP. 
 Now, let's have a talk about the security of ElGamal encryption scheme.
 \subsection{The Diffie-Hellman problem}
 \begin{center}
@@ -160,4 +160,48 @@ We can see two things here :
     \item Retrieving the secret key $a$ or $k$ from $A$ or $K$ is DLP
     \item Breaking ElGamal requires to compute $g^{ak}$, so this is DHP.
 \end{itemize}
+
+
+\subsection{ElGamal signature}
+Let's see how our boy Taher ElGamal does the signing thing. It actually does not look like his way of encrypting, man's just too hot so he's here twice \includegraphics[height=1cm]{images/bigshaq.png}.
+
+\begin{itemize}
+    \item Input : message $\green{m}\in \mathbb{Z}_p ^*$ that we want to sign, and private key $\rouge{a}$. We also hash $\green{m}$ to $\green{h}$.
+    \item Generating ephemeral key pair, different for each encryption :
+    \begin{itemize}[label=$\star$]
+        \item $\rouge{k}$ randomly taken in $[1, p-2]$ (we thus guess it will be an exponent haha, and private)
+        \item Compute $\green{r}$ = $g^\rouge{k} \mod{p}$
+    \end{itemize}
+    \item Compute the signature : $$\green{s} = \rouge{k}^{-1}(\green{h}-\rouge{a}\green{r})\mod{(p-1)}$$
+    \item Send $((r,s),m)$
+\end{itemize}
+
+Then, to verify, the user receives the double $((r,s), m)$, and :
+\begin{itemize}
+    \item Compute $h = \mathrm{hash}(m)$
+    \item We take $r^s$ to cancel the exponentiation with $k$ that is unknown, and we multiply by $A^r$ to also avoid $a$. At the end we should get $g^h$. So :
+    $$g^h \stackrel{?}{=}A^r r^s \; \mod{p}$$
+\end{itemize}
+
+We have the same disclaimer for the ElGamal signature as we did for the encryption : $k$ must be secret and randomly drawn every time. But here even worse, one can compute $a$ if $k$ is repeated with different hashes.
+
+\begin{center}
+    \includegraphics[width=0.6\linewidth, page=83]{Slides/4-Public.pdf}
+\end{center}
+
+\subsection{DHKE : Diffie-Hellman key exchange}
+Diffie and Hellman imagined a scheme where Ali and Bachar exchange some public information to both compute the same symmetric key with secret information. It uses the environment of the DLP, so we have Ali and Bachar's key pairs :
+\begin{itemize}
+    \item Ali : $A$ and $g^a\mod{p}$
+    \item Bachar : $B$ and $g^b\mod{p}$
+\end{itemize}
+
+They can compute the same symmetric key and use some of this AES, 3DES, etc. as seen on the left slide below. However, we want to avoid using the same key pair for all communications with Bachar. So for this reason, we introduce some \textbf{ephemeral key pairs} for each communication. Each time Ali wants to talk with Bachar, these key pairs are generated.
+
+\begin{center}
+    \includegraphics[width=0.45\linewidth, page=76]{Slides/4-Public.pdf}
+    \includegraphics[width=0.45\linewidth, page=78]{Slides/4-Public.pdf}
+\end{center}
+
+
 \end{document}
